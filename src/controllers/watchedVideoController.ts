@@ -26,7 +26,7 @@ export const markVideoAsWatched = (req: AuthRequest, res: Response): void => {
         })
         .then(newWatchedEntry => {
             if (newWatchedEntry) {
-                res.status(201).json({ message: "Marked as watched", newWatchedEntry });
+                res.status(201).json({ message: "Marked as watched video", newWatchedEntry });
             }
         })
         .catch(error => res.status(400).json({ message: error.message }));
