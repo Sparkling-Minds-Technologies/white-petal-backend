@@ -4,7 +4,6 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { ResponseCode } from "../lib/Utils/ResponseCode";
 import { Res } from "../lib/datatype/common";
-import cloudinary from "../lib/Utils/Cloundinary";
 import nodemailer from "nodemailer";
 import crypto from "crypto";
 import dotenv from "dotenv";
@@ -521,77 +520,6 @@ const RejectUsers = (req: AuthRequest, res: Response): void => {
         .json({ status: false, message: "Error deleting user" });
     });
 };
-
-// Admin Creates Instructor, School, or Admin
-// const createUserByAdmin = (req: AuthRequest, res: Response): void => {
-//   if (req.user?.role !== "admin") {
-//     res
-//       .status(ResponseCode.FORBIDDEN)
-//       .json({ status: false, message: "Unauthorized" });
-//     return;
-//   }
-
-//   const { name, email, role, password } = req.body;
-
-//   const allowedRoles = ["instructor", "school", "admin"];
-//   if (!allowedRoles.includes(role)) {
-//     res.status(ResponseCode.BAD_REQUEST).json({
-//       status: false,
-//       message: "Invalid role. Only 'admin', 'instructor', or 'school' allowed",
-//     });
-//     return;
-//   }
-
-//   if (!password || password.length < 6) {
-//     res.status(ResponseCode.BAD_REQUEST).json({
-//       status: false,
-//       message: "Password is required and must be at least 6 characters",
-//     });
-//     return;
-//   }
-
-//   UserModel.findOne({ email })
-//     .then((existingUser) => {
-//       if (existingUser) {
-//         res
-//           .status(ResponseCode.CONFLICT)
-//           .json({ status: false, message: "Email already exists" });
-//         return Promise.reject("Email already exists");
-//       }
-
-//       const hashedPassword = bcrypt.hashSync(password, 10);
-//       const user = new UserModel({
-//         name,
-//         email,
-//         password: hashedPassword,
-//         role,
-//         // approved is handled by pre-save hook for 'admin'
-//       });
-
-//       return user.save();
-//     })
-//     .then((user) => {
-//       res.status(ResponseCode.SUCCESS).json({
-//         status: true,
-//         message: `User with role '${role}' created successfully`,
-//         user: {
-//           id: user._id,
-//           name: user.name,
-//           email: user.email,
-//           role: user.role,
-//           approved: user.approved,
-//         },
-//       });
-//     })
-//     .catch((error) => {
-//       console.error("Error creating user by admin:", error); // 👈 log exact error
-//       if (error !== "Email already exists") {
-//         res
-//           .status(ResponseCode.SERVER_ERROR)
-//           .json({ status: false, message: "Server error" });
-//       }
-//     });
-// };
 
 
 // ✅ SMTP transporter using Gmail + App Password + Port 465 (secure SSL)
